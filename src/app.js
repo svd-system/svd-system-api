@@ -1,24 +1,24 @@
-// Criar app.
 const app = require('express')();
+const dotenv = require('dotenv');
+const cors = require('cors');
+const http = require('http');
 
-// Configurar porta do servidor.
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
+  // Configurar porta do servidor e log.
+  dotenv.config();
 }
 
 const port = process.env.PORT || 8080;
 app.set('port', port);
 
 // Configurar CROS.
-const cors = require('cors');
 app.use(cors());
 
 // Configurar Swagger.
 require('./config/swagger/swagger')(app);
 
 // Criar e iniciar o servidor.
-const http = require('http')
 const server = http.createServer(app);
-server.listen(port);
-
-console.debug(`SVD System API server running on port ${port}`)
+server.listen(port, () => {
+  console.debug(`SVD System API server running on port ${port}`);
+});

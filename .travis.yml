@@ -5,4 +5,4 @@ node_js:
   - 13
 
 script:
-  - echo "skipping tests"
+  - npm run lint
