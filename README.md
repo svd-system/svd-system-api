@@ -13,3 +13,4 @@ API do sistema SVD System, um cartão de vacinas digital.
 *  [Sequelize](https://sequelize.org/)
 *  [Travis CI](https://travis-ci.com/)
 *  [Heroku](https://dashboard.heroku.com/)
+*  [Swagger](https://swagger.io/)
