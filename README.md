@@ -1,4 +1,6 @@
 # SVD System API
+[![Build Status](https://travis-ci.com/svd-system/svd-system-api.svg?branch=develop)](https://travis-ci.com/svd-system/svd-system-api)
+
 API do sistema SVD System, um cartão de vacinas digital.
 
 ---
@@ -9,3 +11,4 @@ API do sistema SVD System, um cartão de vacinas digital.
 *  [Express](https://expressjs.com/pt-br/)
 *  [nodemon](https://nodemon.io/)
 *  [Sequelize](https://sequelize.org/)
+*  [Travis CI](https://travis-ci.com/)
