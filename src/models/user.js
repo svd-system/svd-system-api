@@ -83,6 +83,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: 'USUARIO',
+      instanceMethods: {
+        toJSON() {
+          const values = { ...this.get() };
+          delete values.password;
+          return values;
+        },
+      },
     }
   );
   return User;

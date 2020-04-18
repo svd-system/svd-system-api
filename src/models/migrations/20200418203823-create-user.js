@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Users', {
+    return queryInterface.createTable('USUARIO', {
       id: {
         field: 'ID_USUARIO',
         allowNull: false,
@@ -80,12 +80,10 @@ module.exports = {
         defaultValue: true,
       },
       createdAt: {
-        field: 'CRIADO_EM',
         allowNull: false,
         type: Sequelize.DATE,
       },
       updatedAt: {
-        field: 'MODIFICADO_EM',
         allowNull: false,
         type: Sequelize.DATE,
       },

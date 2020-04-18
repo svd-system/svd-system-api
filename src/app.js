@@ -2,6 +2,7 @@ const app = require('express')();
 const dotenv = require('dotenv');
 const cors = require('cors');
 const http = require('http');
+const bodyParser = require('body-parser');
 
 if (process.env.NODE_ENV !== 'production') {
   // Configurar porta do servidor e log.
@@ -11,8 +12,12 @@ if (process.env.NODE_ENV !== 'production') {
 const port = process.env.PORT || 8080;
 app.set('port', port);
 
-// Configurar CROS.
+// Configurar CROS e body parser.
 app.use(cors());
+app.use(bodyParser.json());
+
+// Definir rotas.
+require('./routes/index')(app);
 
 // Configurar Swagger.
 require('./config/swagger/swagger')(app);

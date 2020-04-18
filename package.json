@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/svd-system/svd-system-api#readme",
   "dependencies": {
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "eslint-config-prettier": "^6.10.1",
