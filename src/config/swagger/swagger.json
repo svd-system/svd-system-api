@@ -34,6 +34,41 @@
           }
         }
       }
+    },
+    "/users/count": {
+      "get": {
+        "tags": ["Usuários"],
+        "summary": "Contar usuários.",
+        "description": "Contar número de usuários de acordo com os parâmetros informados. Se não for informado nenhum parâmetro, retorna o número total de usuários.",
+        "parameters": [
+          {
+            "name": "cpf",
+            "in": "query",
+            "description": "CPF do usuário",
+            "type": "string"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Email do usuário",
+            "type": "string"
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Número total de usuários encontrados.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "count": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {

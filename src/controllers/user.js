@@ -25,3 +25,20 @@ exports.create = (req, res) => {
       });
     });
 };
+
+/**
+ * Contar total de usuários de acordo com parâmetros definidos na requisição.
+ */
+exports.count = (req, res) => {
+  return User.count({
+    where: req.query,
+  })
+    .then((count) => {
+      res.status(200).send({ count });
+    })
+    .catch((error) => {
+      res.status(400).send({
+        message: error.message,
+      });
+    });
+};
