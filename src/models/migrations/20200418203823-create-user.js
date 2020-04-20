@@ -90,6 +90,6 @@ module.exports = {
     });
   },
   down: (queryInterface) => {
-    return queryInterface.dropTable('Users');
+    return queryInterface.dropTable('USUARIO');
   },
 };

@@ -25,5 +25,7 @@ require('./config/swagger/swagger')(app);
 // Criar e iniciar o servidor.
 const server = http.createServer(app);
 server.listen(port, () => {
-  console.debug(`SVD System API server running on port ${port}`);
+  console.debug(
+    `Mode: ${process.env.NODE_ENV}\nSVD System API server running on port ${port}`
+  );
 });
