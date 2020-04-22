@@ -37,7 +37,7 @@ exports.count = (req, res) => {
       res.status(200).send({ count });
     })
     .catch((error) => {
-      res.status(400).send({
+      res.status(500).send({
         message: error.message,
       });
     });
