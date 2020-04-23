@@ -18,6 +18,7 @@ API do sistema SVD System, um cartão de vacinas digital.
 - [Prettier](https://prettier.io/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Git](https://git-scm.com/)
+- [express-validator](https://express-validator.github.io/docs/)
 
 #### Documentação da API com Swagger
 
@@ -84,11 +85,18 @@ Os dados de conexão com o banco de dados PostgreSQL devem ser definidas atravé
 DB_USERNAME=postgres
 DB_PASSWORD=postgres
 DB_DATABASE=postgres
-DB_HOST=localhost:5432
+DB_HOST=localhost
+DB_PORT=5432
 DB_DIALECT=postgres
 ```
 
 Outra possibilidade é definir esses mesmos parâmetros diretamente nas variáveis de ambiente do seu computador.
+
+Agora precisamos executar o comando a seguir para que o Sequelize crie toda a estrutura do banco de dados da aplicação:
+
+```shell
+sequelize-cli db:migrate
+```
 
 #### Executando o projeto
 
