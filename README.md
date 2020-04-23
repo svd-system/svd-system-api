@@ -18,6 +18,7 @@ API do sistema SVD System, um cartão de vacinas digital.
 - [Prettier](https://prettier.io/)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Git](https://git-scm.com/)
+- [express-validator](https://express-validator.github.io/docs/)
 
 #### Documentação da API com Swagger
 
