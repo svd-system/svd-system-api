@@ -19,6 +19,7 @@ API do sistema SVD System, um cartão de vacinas digital.
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Git](https://git-scm.com/)
 - [express-validator](https://express-validator.github.io/docs/)
+- [JSON Web Token](https://jwt.io/)
 
 #### Documentação da API com Swagger
 
@@ -96,6 +97,21 @@ Agora precisamos executar o comando a seguir para que o Sequelize crie toda a es
 
 ```shell
 sequelize-cli db:migrate
+```
+
+#### Segurança
+
+A API utiliza o JWT para autenticar as requisições usando criptografia assimétrica. Para configurar as chaves pública e privada necessárias para o funcionamento adequado, execute os comandos abaixo:
+
+```shell
+openssl genrsa -out .private.key 2048
+openssl rsa -in .private.key -out .public.key -pubout -outform PEM
+```
+
+As requsições à API devem conter no header um token como no exemplo abaixo:
+
+```shell
+Authorization: Bearer {token}
 ```
 
 #### Executando o projeto

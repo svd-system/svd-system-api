@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const http = require('http');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 if (process.env.NODE_ENV !== 'production') {
   // Configurar porta do servidor e log.
@@ -15,6 +16,7 @@ app.set('port', port);
 // Configurar CROS e body parser.
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // Definir rotas.
 require('./routes/index')(app);

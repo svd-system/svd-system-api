@@ -1,0 +1,7 @@
+const TOKEN_ALGORITHM = 'RS256';
+const TOKEN_EXPIRATION_TIME = 1800;
+
+module.exports = {
+  TOKEN_ALGORITHM,
+  TOKEN_EXPIRATION_TIME,
+};
