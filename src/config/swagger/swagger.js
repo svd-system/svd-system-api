@@ -1,7 +1,12 @@
 const swaggerUi = require('swagger-ui-express');
-const swaggerDoc = require('./swagger.json');
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerDefinition = require('./swaggerDefinition.json');
+
+const swaggerDocs = swaggerJSDoc({
+  swaggerDefinition,
+  apis: ['./docs/*.yaml'],
+});
 
 module.exports = (app) => {
-  app.use('/api/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
-  app.get('*', (req, res) => res.redirect('/api/swagger-ui'));
+  app.use('/api/swagger-ui', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 };

@@ -18,11 +18,11 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// Definir rotas.
-require('./routes/index')(app);
-
 // Configurar Swagger.
 require('./config/swagger/swagger')(app);
+
+// Definir rotas.
+require('./routes/index')(app);
 
 // Criar e iniciar o servidor.
 const server = http.createServer(app);

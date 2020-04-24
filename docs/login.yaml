@@ -1,0 +1,42 @@
+/login:
+  post:
+    tags:
+      - Login
+    summary: Fazer login na API.
+    description: >-
+      Fazer login no sistema para gerar o JSON Web Token que deverá ser
+      enviado em todas as requisições protegidas.
+    parameters:
+      - name: user
+        in: body
+        description: Credencias do usuário.
+        schema:
+          type: object
+          properties:
+            cpf:
+              type: string
+              required: true
+              description: CPF do usuário.
+            password:
+              type: string
+              required: true
+              description: Senha do usuário.
+    produces:
+      - application/json
+    responses:
+      '200':
+        description: Login feito com sucesso.
+        schema:
+          type: object
+          properties:
+            auth:
+              type: boolean
+              description: Indica se o token está válido.
+            token:
+              type: string
+              description: >-
+                JSON Web Token. Deve ser enviado no header das requisições
+                protegidas: { Authorization: "token" }.
+            expiration:
+              type: string
+              description: Data de validade do token.
