@@ -41,6 +41,16 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      address: {
+        field: 'LOGRADOURO',
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      houseNumber: {
+        field: 'NUM_LOGRADOURO',
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       cep: {
         field: 'CEP',
         type: DataTypes.STRING(8),
