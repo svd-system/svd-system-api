@@ -48,6 +48,7 @@ const create = () => {
       .withMessage(NUMERIC_ONLY_ERROR_MSG)
       .isLength({ min: CPF_LENGTH, max: CPF_LENGTH })
       .withMessage(INVALID_LENGTH_ERROR_MSG.replace('{0}', CPF_LENGTH))
+      .bail()
       .custom((value) =>
         checkUnique(
           { cpf: value },
@@ -74,6 +75,7 @@ const create = () => {
       .withMessage(REQUIRED_FIELD_ERROR_MSG)
       .isEmail()
       .withMessage(INVALID_FORMAT_ERROR_MSG)
+      .bail()
       .custom((value) =>
         checkUnique(
           { email: value },
