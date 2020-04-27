@@ -70,6 +70,13 @@ definitions:
         required: true
         pattern: '1990-12-31'
         description: Data de nascimento (YYYY-MM-DD)
+      genre:
+        type: string
+        required: false
+        description: Sexo do paciente
+        enum:
+          - FEMININO
+          - MASCULINO
       phoneNumber:
         type: string
         required: true
@@ -78,8 +85,8 @@ definitions:
       address:
         type: string
         required: false
-        description: Endereço
-      addressNumber:
+        description: Logradouro
+      houseNumber:
         type: string
         required: false
         description: Nº da residência

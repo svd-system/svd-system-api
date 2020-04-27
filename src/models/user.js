@@ -30,6 +30,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATEONLY,
         allowNull: false,
       },
+      genre: {
+        field: 'SEXO',
+        type: DataTypes.ENUM({
+          values: ['FEMININO', 'MASCULINO'],
+        }),
+        allowNull: true,
+      },
       email: {
         field: 'EMAIL',
         type: DataTypes.STRING,
@@ -38,6 +45,16 @@ module.exports = (sequelize, DataTypes) => {
       },
       phoneNumber: {
         field: 'TELEFONE',
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      address: {
+        field: 'LOGRADOURO',
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      houseNumber: {
+        field: 'NUM_LOGRADOURO',
         type: DataTypes.STRING,
         allowNull: true,
       },

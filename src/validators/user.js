@@ -9,6 +9,8 @@ const INVALID_MINLENGTH_ERROR_MSG =
   'O campo deve possuir no mínimo {0} dígitos';
 const INVALID_BIRTH_DATE_ERROR_MSG = 'Não é permitida data posterior a hoje';
 const CHECK_UNIQUE_ERROR_MSG = 'O {0} informado já está em uso';
+const INVALID_GENRE_ERROR_MSG = 'Sexo inválido';
+const INVALID_ROLE_ERROR_MSG = 'Tipo de usuário inválido';
 
 const CPF_LENGTH = 11;
 const CEP_LENGTH = 8;
@@ -48,6 +50,7 @@ const create = () => {
       .withMessage(NUMERIC_ONLY_ERROR_MSG)
       .isLength({ min: CPF_LENGTH, max: CPF_LENGTH })
       .withMessage(INVALID_LENGTH_ERROR_MSG.replace('{0}', CPF_LENGTH))
+      .bail()
       .custom((value) =>
         checkUnique(
           { cpf: value },
@@ -63,6 +66,11 @@ const create = () => {
       .custom((value) => checkBirthDate(value))
       .withMessage(INVALID_BIRTH_DATE_ERROR_MSG),
 
+    body('genre')
+      .if((value) => value)
+      .isIn(['FEMININO', 'MASCULINO'])
+      .withMessage(INVALID_GENRE_ERROR_MSG),
+
     body('phoneNumber')
       .notEmpty()
       .withMessage(REQUIRED_FIELD_ERROR_MSG)
@@ -74,6 +82,7 @@ const create = () => {
       .withMessage(REQUIRED_FIELD_ERROR_MSG)
       .isEmail()
       .withMessage(INVALID_FORMAT_ERROR_MSG)
+      .bail()
       .custom((value) =>
         checkUnique(
           { email: value },
@@ -103,6 +112,11 @@ const create = () => {
       .withMessage(
         INVALID_MINLENGTH_ERROR_MSG.replace('{0}', PASSWORD_MINLENGTH)
       ),
+
+    body('role')
+      .if((value) => value)
+      .isIn(['PACIENTE', 'COLABORADOR', 'ADMINISTRADOR'])
+      .withMessage(INVALID_ROLE_ERROR_MSG),
   ];
 };
 
