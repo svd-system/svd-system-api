@@ -21,15 +21,22 @@ exports.login = (req, res) => {
             auth: same,
             token,
             expiration,
+            role: user.role,
           });
         }
 
-        errors.push({ password: 'Senha incorreta' });
+        errors.push({
+          property: 'password',
+          message: 'Senha incorreta',
+        });
         return res.status(409).send({ errors });
       });
     })
     .catch((err) => {
-      errors.push({ [err.param]: err.message });
+      errors.push({
+        property: err.param,
+        message: err.message,
+      });
       return res.status(404).send({ errors });
     });
 };

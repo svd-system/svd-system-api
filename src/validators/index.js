@@ -9,7 +9,10 @@ const validate = (req, res, next) => {
   }
   const extractedErrors = [];
   errors.array().forEach((err) => {
-    extractedErrors.push({ [err.param]: err.msg });
+    extractedErrors.push({
+      property: err.param,
+      message: err.msg,
+    });
   });
 
   return res.status(422).json({
