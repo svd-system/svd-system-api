@@ -27,6 +27,25 @@ exports.create = (req, res) => {
 };
 
 /**
+ * Consultar usuário por id.
+ */
+exports.get = (req, res) => {
+  return User.findByPk(req.params.id)
+    .then((user) => {
+      if (user) {
+        res.status(200).send(user);
+      } else {
+        res.status(404).send();
+      }
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
+};
+
+/**
  * Contar total de usuários de acordo com parâmetros definidos na requisição.
  */
 exports.count = (req, res) => {
