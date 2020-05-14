@@ -40,3 +40,6 @@
             expiration:
               type: string
               description: Data de validade do token.
+            user:
+              type: string
+              description: Caminho na API para o recurso do usuário logado.

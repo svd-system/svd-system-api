@@ -21,6 +21,7 @@ exports.login = (req, res) => {
             auth: same,
             token,
             expiration,
+            user: `/api/users/${user.id}`,
             role: user.role,
           });
         }
