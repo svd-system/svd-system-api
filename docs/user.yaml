@@ -1,5 +1,38 @@
 paths:
   /users:
+    get:
+      tags:
+        - Usuários
+      summary: Listar usuários.
+      parameters:
+        - name: excludeId
+          in: path
+          type: number
+          description: ID do usuário que não deve vir na lista. Geralmente é o ID do usuário logado.
+        - name: activeOnly
+          in: path
+          type: boolean
+          description: Lista somente usuários ativos.
+        - name: limit
+          in: path
+          type: number
+          description: Limite de registros por requisição. Usado para paginação.
+        - name: page
+          in: path
+          type: number
+          description: Número da página de registros. Usado para paginação.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Lista de usuários.
+          schema:
+            type: array
+            items:
+              title: User
+              $ref: '#/definitions/User'
+        '404':
+          description: Não há usuários a serem listados.
     post:
       tags:
         - Usuários

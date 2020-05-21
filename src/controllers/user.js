@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const { Op } = require('sequelize');
 const { User } = require('../models');
 
 const SALT_RANDS = 12;
@@ -21,6 +22,50 @@ exports.create = (req, res) => {
     })
     .catch((error) => {
       res.status(400).send({
+        message: error.message,
+      });
+    });
+};
+
+/**
+ * Listar todos os pacientes.
+ */
+exports.list = (req, res) => {
+  const { limit, page, excludeId, activeOnly } = req.query;
+  let offset = null;
+  if (limit && page) {
+    offset = page * limit;
+  }
+
+  const where = {};
+  if (excludeId || activeOnly) {
+    if (excludeId) {
+      where.id = {
+        [Op.not]: [excludeId],
+      };
+    }
+
+    if (activeOnly && activeOnly === 'true') {
+      where.active = {
+        [Op.eq]: true,
+      };
+    }
+  }
+
+  return User.findAll({
+    limit,
+    offset,
+    where,
+  })
+    .then((users) => {
+      if (users) {
+        res.status(200).send(users);
+      } else {
+        res.status(404).send([]);
+      }
+    })
+    .catch((error) => {
+      res.status(500).send({
         message: error.message,
       });
     });
