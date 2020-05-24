@@ -67,7 +67,8 @@ const create = () => {
       .withMessage(INVALID_BIRTH_DATE_ERROR_MSG),
 
     body('genre')
-      .if((value) => value)
+      .notEmpty()
+      .withMessage(REQUIRED_FIELD_ERROR_MSG)
       .isIn(['FEMININO', 'MASCULINO'])
       .withMessage(INVALID_GENRE_ERROR_MSG),
 

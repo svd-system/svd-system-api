@@ -27,17 +27,24 @@ exports.create = (req, res) => {
     });
 };
 
-/**
- * Listar todos os pacientes.
- */
-exports.list = (req, res) => {
-  const { limit, page, excludeId, activeOnly } = req.query;
-  let offset = null;
-  if (limit && page) {
-    offset = page * limit;
+const buildFilter = (queryParams) => {
+  const { excludeId, activeOnly, query } = queryParams;
+  let where = {};
+  if (query) {
+    const or = [];
+    ['cpf', 'firstName', 'lastName'].forEach((field) => {
+      or.push({
+        [field]: {
+          [Op.iLike]: `%${query}%`,
+        },
+      });
+    });
+
+    where = {
+      [Op.or]: or,
+    };
   }
 
-  const where = {};
   if (excludeId || activeOnly) {
     if (excludeId) {
       where.id = {
@@ -52,6 +59,20 @@ exports.list = (req, res) => {
     }
   }
 
+  return where;
+};
+
+/**
+ * Listar todos os pacientes.
+ */
+exports.list = (req, res) => {
+  const { limit, page } = req.query;
+  let offset = null;
+  if (limit && page) {
+    offset = page * limit;
+  }
+
+  const where = buildFilter(req.query);
   return User.findAll({
     limit,
     offset,

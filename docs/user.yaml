@@ -5,6 +5,10 @@ paths:
         - Usuários
       summary: Listar usuários.
       parameters:
+        - name: query
+          in: path
+          type: string
+          description: Texto usado para filtrar a lista pelo CPF, nome ou sobrenome.
         - name: excludeId
           in: path
           type: number
@@ -123,7 +127,7 @@ definitions:
         description: Data de nascimento (YYYY-MM-DD)
       genre:
         type: string
-        required: false
+        required: true
         description: Sexo do paciente
         enum:
           - FEMININO
