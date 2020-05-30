@@ -25,6 +25,12 @@ paths:
           in: path
           type: number
           description: Número da página de registros. Usado para paginação.
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
       produces:
         - application/json
       responses:
@@ -37,6 +43,9 @@ paths:
               $ref: '#/definitions/User'
         '404':
           description: Não há usuários a serem listados.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
     post:
       tags:
         - Usuários
@@ -58,20 +67,62 @@ paths:
     get:
       tags:
         - Usuários
-      summary: Consultar um usuário pelo id.
+      summary: Consultar um usuário pelo ID.
       parameters:
         - name: id
           in: path
-          description: Id do usuário.
+          description: ID do usuário.
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
       produces:
         - application/json
       responses:
         '200':
-          description: Usuário com o id informado.
+          description: Usuário com o ID informado.
           schema:
             $ref: '#/definitions/User'
         '404':
-          description: Usuário não encontrado com o id informado.
+          description: Usuário não encontrado com o ID informado.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+    put:
+      tags:
+        - Usuários
+      summary: Editar usuário.
+      description: >-
+        Edita o usuário com o ID indicado no path. O CPF do usuário não pode ser editado.
+      parameters:
+        - name: id
+          in: path
+          description: ID do usuário.
+        - name: user
+          in: body
+          description: Usuário editado.
+          schema:
+            $ref: '#/definitions/User'
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Usuário criado com ID.
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: Usuário não encontrado com o ID informado.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
   /users/count:
     get:
       tags:
