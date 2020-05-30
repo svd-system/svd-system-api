@@ -127,3 +127,27 @@ exports.count = (req, res) => {
       });
     });
 };
+
+exports.update = (req, res) => {
+  const user = req.body;
+  return User.update(
+    {
+      role: user.role,
+      active: user.active,
+    },
+    { returning: true, where: { id: req.params.id } }
+  )
+    .then(([rows, [updatedUser]]) => {
+      if (!rows)
+        return res.status(404).send({
+          message: 'User not found',
+        });
+
+      return res.status(200).send(updatedUser);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
+};

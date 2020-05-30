@@ -121,6 +121,16 @@ const create = () => {
   ];
 };
 
+const update = () => {
+  return [
+    body('role')
+      .if((value) => value)
+      .isIn(['PACIENTE', 'COLABORADOR', 'ADMINISTRADOR'])
+      .withMessage(INVALID_ROLE_ERROR_MSG),
+  ];
+};
+
 module.exports = {
   create,
+  update,
 };
