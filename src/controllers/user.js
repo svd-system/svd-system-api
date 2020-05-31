@@ -132,6 +132,17 @@ exports.update = (req, res) => {
   const user = req.body;
   return User.update(
     {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      genre: user.genre,
+      phoneNumber: user.phoneNumber,
+      email: user.email,
+      address: user.address,
+      houseNumber: user.houseNumber,
+      cep: user.cep,
+      city: user.city,
+      state: user.state,
+      professionalOccupation: user.professionalOccupation,
       role: user.role,
       active: user.active,
     },

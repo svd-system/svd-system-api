@@ -1,4 +1,5 @@
 const { body } = require('express-validator');
+const { Op } = require('sequelize');
 const { User } = require('../models');
 
 const REQUIRED_FIELD_ERROR_MSG = 'Campo obrigatório';
@@ -123,6 +124,55 @@ const create = () => {
 
 const update = () => {
   return [
+    body('firstName').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+
+    body('lastName').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+
+    body('genre')
+      .notEmpty()
+      .withMessage(REQUIRED_FIELD_ERROR_MSG)
+      .isIn(['FEMININO', 'MASCULINO'])
+      .withMessage(INVALID_GENRE_ERROR_MSG),
+
+    body('phoneNumber')
+      .notEmpty()
+      .withMessage(REQUIRED_FIELD_ERROR_MSG)
+      .isDecimal()
+      .withMessage(NUMERIC_ONLY_ERROR_MSG),
+
+    body('email')
+      .notEmpty()
+      .withMessage(REQUIRED_FIELD_ERROR_MSG)
+      .isEmail()
+      .withMessage(INVALID_FORMAT_ERROR_MSG)
+      .bail()
+      .custom((value, { req }) =>
+        checkUnique(
+          {
+            id: {
+              [Op.not]: req.params.id,
+            },
+            email: value,
+          },
+          CHECK_UNIQUE_ERROR_MSG.replace('{0}', 'email')
+        )
+      ),
+
+    body('cep')
+      .if((value) => value)
+      .isDecimal()
+      .withMessage(NUMERIC_ONLY_ERROR_MSG)
+      .isLength({ min: CEP_LENGTH, max: CEP_LENGTH })
+      .withMessage(INVALID_LENGTH_ERROR_MSG.replace('{0}', CEP_LENGTH)),
+
+    body('city').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+
+    body('state')
+      .notEmpty()
+      .withMessage(REQUIRED_FIELD_ERROR_MSG)
+      .isLength({ min: STATE_LENGTH, max: STATE_LENGTH })
+      .withMessage(INVALID_LENGTH_ERROR_MSG.replace('{0}', STATE_LENGTH)),
+
     body('role')
       .if((value) => value)
       .isIn(['PACIENTE', 'COLABORADOR', 'ADMINISTRADOR'])
