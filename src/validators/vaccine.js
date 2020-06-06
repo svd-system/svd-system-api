@@ -31,6 +31,17 @@ const create = () => {
   ];
 };
 
+const update = () => {
+  return [
+    body('label').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+
+    body('defaultQuantity').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+
+    body('active').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+  ];
+};
+
 module.exports = {
   create,
+  update,
 };

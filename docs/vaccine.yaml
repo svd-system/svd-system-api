@@ -70,6 +70,40 @@ paths:
         '401':
           description: >-
             Autenticação falhou quando o token não foi encontrado ou é inválido
+  /vaccines/{id}:
+    put:
+      tags:
+        - Vacinas
+      summary: Editar vacina.
+      description: >-
+        Edita a vacina com o ID indicado no path. O número de série do usuário não pode ser editado.
+      parameters:
+        - name: id
+          in: path
+          description: ID da vacina.
+        - name: user
+          in: body
+          description: Vacina editada.
+          schema:
+            $ref: '#/definitions/Vaccine'
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Vacina editada com ID.
+          schema:
+            $ref: '#/definitions/Vaccine'
+        '404':
+          description: Vacina não encontrada com o ID informado.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
 definitions:
   Vaccine:
     properties:

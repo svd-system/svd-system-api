@@ -72,3 +72,31 @@ exports.list = (req, res) => {
       });
     });
 };
+
+/**
+ * Editar a vacina.
+ */
+exports.update = (req, res) => {
+  const vaccine = req.body;
+  return Vaccine.update(
+    {
+      label: vaccine.label,
+      defaultQuantity: vaccine.defaultQuantity,
+      active: vaccine.active,
+    },
+    { returning: true, where: { id: req.params.id } }
+  )
+    .then(([rows, [updatedVaccine]]) => {
+      if (!rows)
+        return res.status(404).send({
+          message: 'Vaccine not found',
+        });
+
+      return res.status(200).send(updatedVaccine);
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
+};
