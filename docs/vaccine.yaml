@@ -1,0 +1,46 @@
+paths:
+  /vaccines:
+    post:
+      tags:
+        - Vacinas
+      summary: Criar uma nova vacina.
+      parameters:
+        - name: vaccine
+          in: body
+          description: Vacina a ser salva.
+          schema:
+            $ref: '#/definitions/Vaccine'
+      produces:
+        - application/json
+      responses:
+        '201':
+          description: Vacina criada com ID.
+          schema:
+            $ref: '#/definitions/Vaccine'
+        '422':
+          description: A vacina criada possui erros.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+definitions:
+  Vaccine:
+    properties:
+      id:
+        type: number
+        uniqueItems: true
+        description: ID da vacina
+      serialNumber:
+        type: string
+        uniqueItems: true
+        required: true
+        description: Número de série
+      label:
+        type: string
+        required: true
+        description: Descrição da vacina
+      defaultQuantity:
+        type: number
+        description: Quantidade padrão em ml
+      active:
+        type: boolean
+        description: Indica se a vacine está ativa

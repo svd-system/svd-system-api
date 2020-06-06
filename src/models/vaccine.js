@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       label: {
-        field: 'DESCRIÇÃO',
+        field: 'DESCRICAO',
         type: DataTypes.STRING,
         allowNull: false,
       },
