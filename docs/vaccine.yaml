@@ -1,5 +1,47 @@
 paths:
   /vaccines:
+    get:
+      tags:
+        - Vacinas
+      summary: Listar vacinas.
+      parameters:
+        - name: query
+          in: path
+          type: string
+          description: Texto usado para filtrar a lista pelo número de série e pela descrição.
+        - name: active
+          in: path
+          type: boolean
+          description: Lista somente vacinas ativas ou inativas.
+        - name: limit
+          in: path
+          type: number
+          description: Limite de registros por requisição. Usado para paginação.
+        - name: page
+          in: path
+          type: number
+          description: Número da página de registros. Usado para paginação.
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Lista de vacinas.
+          schema:
+            type: array
+            items:
+              title: User
+              $ref: '#/definitions/Vaccine'
+        '404':
+          description: Não há vacinas a serem listados.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
     post:
       tags:
         - Vacinas
@@ -10,6 +52,12 @@ paths:
           description: Vacina a ser salva.
           schema:
             $ref: '#/definitions/Vaccine'
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
       produces:
         - application/json
       responses:
@@ -44,3 +92,8 @@ definitions:
       active:
         type: boolean
         description: Indica se a vacine está ativa
+  Vaccines:
+    type: array
+    items:
+      title: Vaccine
+      $ref: '#/definitions/Vaccine'

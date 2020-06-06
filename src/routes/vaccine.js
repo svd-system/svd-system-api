@@ -10,5 +10,6 @@ router.post(
   validate,
   vaccineController.create
 );
+router.get('/', securityService.authenticate, vaccineController.list);
 
 module.exports = router;
