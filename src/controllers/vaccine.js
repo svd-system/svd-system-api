@@ -100,3 +100,20 @@ exports.update = (req, res) => {
       });
     });
 };
+
+/**
+ * Contar total de vacinas de acordo com parâmetros definidos na requisição.
+ */
+exports.count = (req, res) => {
+  return Vaccine.count({
+    where: req.query,
+  })
+    .then((count) => {
+      res.status(200).send({ count });
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
+};

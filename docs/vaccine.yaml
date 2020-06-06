@@ -70,6 +70,29 @@ paths:
         '401':
           description: >-
             Autenticação falhou quando o token não foi encontrado ou é inválido
+  /vaccines/count:
+    get:
+      tags:
+        - Vacinas
+      summary: Contar vacinas.
+      description: >-
+        Contar número de vacinas de acordo com os parâmetros informados. Se não
+        for informado nenhum parâmetro, retorna o número total de vacinas.
+      parameters:
+        - name: serialNumber
+          in: query
+          description: Número de série
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Número total de vacinas encontradas.
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
   /vaccines/{id}:
     put:
       tags:
