@@ -1,0 +1,66 @@
+const { body, param } = require('express-validator');
+const { User, Vaccine } = require('../models');
+
+const REQUIRED_FIELD_ERROR_MSG = 'Campo obrigatório';
+
+const create = () => {
+  return [
+    body('vaccineId')
+      .notEmpty()
+      .withMessage(REQUIRED_FIELD_ERROR_MSG)
+      .bail()
+      .custom((value) => {
+        return Vaccine.findOne({
+          where: {
+            id: value,
+            active: true,
+          },
+        }).then((vaccine) => {
+          if (!vaccine) {
+            throw new Error('A vacina informada não existe');
+          }
+        });
+      }),
+
+    param('patientId')
+      .notEmpty()
+      .withMessage(REQUIRED_FIELD_ERROR_MSG)
+      .bail()
+      .custom((value) => {
+        return User.findOne({
+          where: {
+            id: value,
+            active: true,
+          },
+        }).then((user) => {
+          if (!user) {
+            throw new Error('O paciente informado não existe');
+          }
+        });
+      }),
+
+    body('providerId')
+      .notEmpty()
+      .withMessage(REQUIRED_FIELD_ERROR_MSG)
+      .bail()
+      .custom((value) => {
+        return User.findOne({
+          where: {
+            id: value,
+            role: 'COLABORADOR',
+            active: true,
+          },
+        }).then((user) => {
+          if (!user) {
+            throw new Error('O colaborador informado não existe');
+          }
+        });
+      }),
+
+    body('quantity').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+  ];
+};
+
+module.exports = {
+  create,
+};
