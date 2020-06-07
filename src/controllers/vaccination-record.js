@@ -1,18 +1,47 @@
+const bcrypt = require('bcrypt');
 const { Op, Sequelize } = require('sequelize');
 const { VaccinationRecord, Vaccine, User } = require('../models');
+const { HttpError } = require('../errors');
 
 /**
  * Criar vacina.
  */
 exports.create = (req, res) => {
-  VaccinationRecord.create(req.body)
-    .then((record) => {
-      res.status(201).send(record);
-    })
-    .catch((error) => {
-      res.status(400).send({
-        message: error.message,
+  const errors = [];
+  const vaccination = req.body;
+  User.findByPk(vaccination.providerId)
+    .then((provider) => {
+      if (!provider) {
+        throw new HttpError('cpf', 'CPF não cadastrado');
+      }
+
+      bcrypt.compare(vaccination.password, provider.password, (error, same) => {
+        if (same) {
+          delete vaccination.password;
+          VaccinationRecord.create(vaccination)
+            .then((record) => {
+              res.status(201).send(record);
+            })
+            .catch((err) => {
+              res.status(400).send({
+                message: err.message,
+              });
+            });
+        } else {
+          errors.push({
+            property: 'password',
+            message: 'Senha incorreta',
+          });
+          return res.status(409).send({ errors });
+        }
       });
+    })
+    .catch((err) => {
+      errors.push({
+        property: err.param,
+        message: err.message,
+      });
+      return res.status(404).send({ errors });
     });
 };
 

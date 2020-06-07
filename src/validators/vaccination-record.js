@@ -58,6 +58,8 @@ const create = () => {
       }),
 
     body('quantity').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+
+    body('password').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
   ];
 };
 
