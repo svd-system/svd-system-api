@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       createdAt: {
         allowNull: false,
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
       },
     },
     {
@@ -44,9 +44,18 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   VaccinationRecord.associate = (models) => {
-    VaccinationRecord.belongsTo(models.Vaccine, { foreignKey: 'vaccineId' });
-    VaccinationRecord.belongsTo(models.User, { foreignKey: 'patientId' });
-    VaccinationRecord.belongsTo(models.User, { foreignKey: 'providerId' });
+    VaccinationRecord.belongsTo(models.Vaccine, {
+      foreignKey: 'vaccineId',
+      as: 'vaccine',
+    });
+    VaccinationRecord.belongsTo(models.User, {
+      foreignKey: 'patientId',
+      as: 'patient',
+    });
+    VaccinationRecord.belongsTo(models.User, {
+      foreignKey: 'providerId',
+      as: 'provider',
+    });
   };
   return VaccinationRecord;
 };

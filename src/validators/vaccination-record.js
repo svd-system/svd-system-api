@@ -1,4 +1,4 @@
-const { body, param } = require('express-validator');
+const { body } = require('express-validator');
 const { User, Vaccine } = require('../models');
 
 const REQUIRED_FIELD_ERROR_MSG = 'Campo obrigatório';
@@ -22,7 +22,7 @@ const create = () => {
         });
       }),
 
-    param('patientId')
+    body('patientId')
       .notEmpty()
       .withMessage(REQUIRED_FIELD_ERROR_MSG)
       .bail()
