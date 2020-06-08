@@ -3,6 +3,7 @@ const userValidator = require('./user');
 const loginValidator = require('./login');
 const vaccineValidator = require('./vaccine');
 const vaccinationRecordValidator = require('./vaccination-record');
+const newsfeedValidator = require('./newsfeed');
 
 const validate = (req, res, next) => {
   const errors = validationResult(req);
@@ -28,4 +29,5 @@ module.exports = {
   loginValidator,
   vaccineValidator,
   vaccinationRecordValidator,
+  newsfeedValidator,
 };

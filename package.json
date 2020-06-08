@@ -9,7 +9,7 @@
     "start": "npm run migration:prod && env NODE_ENV=production node src/app.js",
     "dev": "env NODE_ENV=development nodemon src/app.js",
     "web": "npm run start",
-    "lint": "eslint src/*"
+    "lint": "eslint src/**/*.js --fix"
   },
   "repository": {
     "type": "git",
@@ -35,11 +35,10 @@
     "http": "0.0.1-security",
     "jsonwebtoken": "^8.5.1",
     "path": "^0.12.7",
-    "pg": "^8.0.2",
+    "pg": "^8.2.1",
     "pg-hstore": "^2.3.3",
     "prettier": "^2.0.4",
     "sequelize": "^5.21.6",
-    "sequelize-cli": "^5.5.1",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4"
   },
@@ -47,7 +46,8 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
-    "nodemon": "^2.0.3"
+    "nodemon": "^2.0.3",
+    "sequelize-cli": "^5.5.1"
   },
   "engines": {
     "node": "13.x"

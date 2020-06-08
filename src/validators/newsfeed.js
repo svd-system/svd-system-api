@@ -1,11 +1,11 @@
 const { body } = require('express-validator');
-const { Vaccine } = require('../models');
+const { Newsfeed } = require('../models');
 
 const REQUIRED_FIELD_ERROR_MSG = 'Campo obrigatório';
 const CHECK_UNIQUE_ERROR_MSG = 'O {0} informado já está em uso';
 
 const checkUnique = (query, message) => {
-  return Vaccine.findOne({
+  return Newsfeed.findOne({
     where: query,
   }).then((user) => {
     if (user) {
@@ -16,7 +16,7 @@ const checkUnique = (query, message) => {
 
 const create = () => {
   return [
-    body('serialNumber')
+    body('title')
       .notEmpty()
       .withMessage(REQUIRED_FIELD_ERROR_MSG)
       .bail()
@@ -27,15 +27,17 @@ const create = () => {
         )
       ),
 
-    body('label').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+    body('description').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
   ];
 };
 
 const update = () => {
   return [
-    body('label').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+    body('title').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
 
-    body('defaultQuantity').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+    body('description').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+
+    body('link').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
 
     body('active').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
   ];

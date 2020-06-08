@@ -1,13 +1,13 @@
 const { Op } = require('sequelize');
-const { Vaccine } = require('../models');
+const { Newsfeed } = require('../models');
 
 /**
  * Criar vacina.
  */
 exports.create = (req, res) => {
-  Vaccine.create(req.body)
-    .then((vaccine) => {
-      res.status(201).send(vaccine);
+  Newsfeed.create(req.body)
+    .then((newsfeed) => {
+      res.status(201).send(newsfeed);
     })
     .catch((error) => {
       res.status(400).send({
@@ -21,7 +21,7 @@ const buildFilter = (queryParams) => {
   let where = {};
   if (query) {
     const or = [];
-    ['serialNumber', 'label'].forEach((field) => {
+    ['title'].forEach((field) => {
       or.push({
         [field]: {
           [Op.iLike]: `%${query}%`,
@@ -54,14 +54,14 @@ exports.list = (req, res) => {
   }
 
   const where = buildFilter(req.query);
-  return Vaccine.findAll({
+  return Newsfeed.findAll({
     limit,
     offset,
     where,
   })
-    .then((vaccines) => {
-      if (vaccines) {
-        res.status(200).send(vaccines);
+    .then((newsfeed) => {
+      if (newsfeed) {
+        res.status(200).send(newsfeed);
       } else {
         res.status(404).send([]);
       }
@@ -77,10 +77,10 @@ exports.list = (req, res) => {
  * Consultar vacina por id.
  */
 exports.get = (req, res) => {
-  return Vaccine.findByPk(req.params.id)
-    .then((vaccines) => {
-      if (vaccines) {
-        res.status(200).send(vaccines);
+  return Newsfeed.findByPk(req.params.id)
+    .then((newsfeed) => {
+      if (newsfeed) {
+        res.status(200).send(newsfeed);
       } else {
         res.status(404).send();
       }
@@ -96,23 +96,23 @@ exports.get = (req, res) => {
  * Editar a vacina.
  */
 exports.update = (req, res) => {
-  const vaccine = req.body;
-  return Vaccine.update(
+  const Newsfeed = req.body;
+  return Newsfeed.update(
     {
-      serialNumber: vaccine.serialNumber,
-      label: vaccine.label,
-      defaultQuantity: vaccine.defaultQuantity,
-      active: vaccine.active,
+      title: newsfeed.title,
+      description: newsfeed.description,
+      link: newsfeed.link,
+      icon: newsfeed.icon,
     },
     { returning: true, where: { id: req.params.id } }
   )
-    .then(([rows, [updatedVaccine]]) => {
+    .then(([rows, [updatedNewsfeed]]) => {
       if (!rows)
         return res.status(404).send({
           message: 'Vaccine not found',
         });
 
-      return res.status(200).send(updatedVaccine);
+      return res.status(200).send(updatedNewsfeed);
     })
     .catch((error) => {
       res.status(500).send({
@@ -125,7 +125,7 @@ exports.update = (req, res) => {
  * Contar total de vacinas de acordo com parâmetros definidos na requisição.
  */
 exports.count = (req, res) => {
-  return Vaccine.count({
+  return Newsfeed.count({
     where: req.query,
   })
     .then((count) => {

@@ -27,6 +27,7 @@ require('./routes/index')(app);
 // Criar e iniciar o servidor.
 const server = http.createServer(app);
 server.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.debug(
     `Mode: ${process.env.NODE_ENV}\nSVD System API server running on port ${port}`
   );
