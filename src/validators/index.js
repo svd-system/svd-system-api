@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const userValidator = require('./user');
 const loginValidator = require('./login');
 const vaccineValidator = require('./vaccine');
+const vaccinationRecordValidator = require('./vaccination-record');
 
 const validate = (req, res, next) => {
   const errors = validationResult(req);
@@ -26,4 +27,5 @@ module.exports = {
   userValidator,
   loginValidator,
   vaccineValidator,
+  vaccinationRecordValidator,
 };
