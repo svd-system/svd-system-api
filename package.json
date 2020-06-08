@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "migration:prod": "sequelize db:migrate --env production",
-    "start": "npm run migration:prod && env NODE_ENV=production node src/app.js",
+    "keygen": "openssl genrsa -out .private.key 2048 && openssl rsa -in .private.key -out .public.key -pubout -outform PEM",
+    "start": "npm run keygen && npm run migration:prod && env NODE_ENV=production node src/app.js",
     "dev": "env NODE_ENV=development nodemon src/app.js",
     "web": "npm run start",
     "lint": "eslint src/**/*.js --fix"
