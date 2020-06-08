@@ -35,7 +35,7 @@ paths:
           schema:
             type: array
             items:
-              title: User
+              title: Vaccine
               $ref: '#/definitions/Vaccine'
         '404':
           description: Não há vacinas a serem listados.
@@ -104,7 +104,7 @@ paths:
         - name: id
           in: path
           description: ID da vacina.
-        - name: user
+        - name: vaccine
           in: body
           description: Vacina editada.
           schema:
