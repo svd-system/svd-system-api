@@ -1,0 +1,92 @@
+paths:
+  /newsfeed:
+    get:
+      tags:
+        - Mural
+      summary: Listar posts.
+      parameters:
+        - name: limit
+          in: path
+          type: number
+          description: Limite de registros por requisição. Usado para paginação.
+        - name: page
+          in: path
+          type: number
+          description: Número da página de registros. Usado para paginação.
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Lista de posts.
+          schema:
+            type: array
+            items:
+              title: Post
+              $ref: '#/definitions/Posts'
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+    post:
+      tags:
+        - Mural
+      summary: Criar uma nova postagem.
+      parameters:
+        - name: post
+          in: body
+          description: Postagem a ser salva.
+          schema:
+            $ref: '#/definitions/Post'
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '201':
+          description: Postagem criada com ID.
+          schema:
+            $ref: '#/definitions/Post'
+        '422':
+          description: A postagem criada possui erros.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+definitions:
+  Post:
+    properties:
+      id:
+        type: number
+        uniqueItems: true
+        description: ID da postagem.
+      title:
+        type: string
+        required: true
+        description: Título da postagem.
+      description:
+        type: string
+        required: true
+        description: Descrição da postagem.
+      link:
+        type: string
+        description: URL do link da fonte da postagem.
+      expiresAt:
+        type: string
+        description: Data de expiração da postagem.
+      showIcon:
+        type: boolean
+        default: false
+        description: Exibir ícone de notificação?
+  Posts:
+    type: array
+    items:
+      title: Post
+      $ref: '#/definitions/Post'

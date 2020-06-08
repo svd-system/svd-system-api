@@ -12,6 +12,7 @@ router.post(
 );
 router.get('/', securityService.authenticate, vaccineController.list);
 router.get('/count', securityService.authenticate, vaccineController.count);
+router.get('/:id', securityService.authenticate, vaccineController.get);
 router.put(
   '/:id',
   vaccineValidator.update(),

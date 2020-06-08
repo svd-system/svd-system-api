@@ -74,12 +74,32 @@ exports.list = (req, res) => {
 };
 
 /**
+ * Consultar vacina por id.
+ */
+exports.get = (req, res) => {
+  return Vaccine.findByPk(req.params.id)
+    .then((vaccines) => {
+      if (vaccines) {
+        res.status(200).send(vaccines);
+      } else {
+        res.status(404).send();
+      }
+    })
+    .catch((error) => {
+      res.status(500).send({
+        message: error.message,
+      });
+    });
+};
+
+/**
  * Editar a vacina.
  */
 exports.update = (req, res) => {
   const vaccine = req.body;
   return Vaccine.update(
     {
+      serialNumber: vaccine.serialNumber,
       label: vaccine.label,
       defaultQuantity: vaccine.defaultQuantity,
       active: vaccine.active,
