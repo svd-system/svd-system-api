@@ -1,0 +1,106 @@
+paths:
+    /vaccinations:
+      post:
+        tags:
+          - Registro de vacinação
+        summary: Criar novo registro de vacinação.
+        parameters:
+          - name: Authorization
+            in: header
+            description: 'Token no padrão: Bearer {token}.'
+            required: true
+            schema:
+                type: string
+          - name: vaccination
+            in: body
+            description: Informações do registro de vacinação.
+            schema:
+              type: object
+              properties:
+                patientId:
+                  type: number
+                  required: true
+                  description: ID do usuário paciente.
+                vaccineId:
+                  type: number
+                  required: true
+                  description: ID da vacina aplicada.
+                providerId:
+                  type: number
+                  required: true
+                  description: ID da usuário colaborador.
+                quantity:
+                  type: number
+                  required: true
+                  description: Quantidade da dose aplicada em ml.
+                comments:
+                  type: string
+                  description: Observação.
+                password:
+                  type: string
+                  required: true
+                  description: Senha do usuário colaborador.
+        produces:
+          - application/json
+        responses:
+          '201':
+            description: Vacina criada com ID.
+            schema:
+              $ref: '#/definitions/Vaccinations'
+          '422':
+            description: O registro de vacinações criados possui erros.
+          '401':
+            description: >-
+              Autenticação falhou quando o token não foi encontrado ou é inválido.
+definitions:
+  Vaccination:
+    properties:
+      id:
+        type: number
+        uniqueItems: true
+        description: ID do registro de vacinação.
+      patientId:
+        type: number
+        required: true
+        description: ID do usuário paciente.
+      patient:
+        type: object
+        required: true
+        schema:
+          $ref: 'user.yaml#/definitions/User'
+        description: Usuário paciente.
+      vaccineId:
+        type: number
+        required: true
+        description: ID da vacina aplicada.
+      vaccine:
+        type: object
+        required: true
+        schema:
+          $ref: 'vaccine.yaml#/definitions/Vaccine'
+        description: Vacina aplicada.
+      providerId:
+        type: number
+        required: true
+        description: ID do usuário colaborador.
+      provider:
+        type: object
+        required: true
+        schema:
+          $ref: 'provider.yaml#/definitions/User'
+        description: Usuário paciente.
+      comments:
+        type: string
+        description: Obesrvação.
+      quantity:
+        type: number
+        required: true
+        description: Quantidade da dose aplicada em ml.
+      createdAt:
+        type: string
+        description: Data e hora de criação do registro.
+  Vaccinations:
+    type: array
+    items:
+      title: Vaccination
+      $ref: '#/definitions/Vaccination'
