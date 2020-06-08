@@ -46,12 +46,58 @@ paths:
           '201':
             description: Vacina criada com ID.
             schema:
-              $ref: '#/definitions/Vaccinations'
+              $ref: '#/definitions/Vaccination'
           '422':
             description: O registro de vacinações criados possui erros.
           '401':
             description: >-
               Autenticação falhou quando o token não foi encontrado ou é inválido.
+    /users/{userId}/vaccinations:
+      get:
+        tags:
+          - Registro de vacinação
+        summary: Listar vacinações do paciente.
+        description: >-
+          Lista as vacinações do paciente de acordo com os filtros informados.
+        parameters:
+          - name: userId
+            in: path
+            description: ID do usuário paciente.
+          - name: q
+            in: path
+            type: string
+            description: >-
+              Texto usado para filtrar a lista pela descrição ou observação da vacina, 
+              nome ou sobrenome do usuário colaborador e observação do registro.
+          - name: from
+            in: path
+            type: string
+            description: Data inicial do filtro.
+          - name: to
+            in: path
+            type: string
+            description: Data final do filtro.
+          - name: limit
+            in: path
+            type: number
+            description: Limite de registros por requisição. Usado para paginação.
+          - name: page
+            in: path
+            type: number
+            description: Número da página de registros. Usado para paginação.
+          - in: header
+            name: Authorization
+            description: 'Token no padrão: Bearer {token}.'
+            schema:
+              type: string
+            required: true
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: Número total de vacinas encontradas.
+            schema:
+              $ref: '#/definitions/Vaccinations'
 definitions:
   Vaccination:
     properties:
