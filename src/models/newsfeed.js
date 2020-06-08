@@ -3,7 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     'Newsfeed',
     {
       id: {
-        field: 'ID',
+        field: 'ID_POST',
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -16,20 +16,21 @@ module.exports = (sequelize, DataTypes) => {
       },
       description: {
         field: 'DESCRICAO',
+        allowNull: false,
         type: DataTypes.STRING,
       },
       link: {
         field: 'LINK',
         type: DataTypes.STRING,
       },
-      date: {
-        fild: 'DATA',
+      expiresAt: {
+        fild: 'DT_EXPIRACAO',
         type: DataTypes.DATEONLY,
       },
-      icon: {
-        field: 'ICONE',
+      showIcon: {
+        field: 'EXIBIR_ICONE',
         type: DataTypes.BOOLEAN,
-        defaultValue: null,
+        defaultValue: false,
       },
     },
     {

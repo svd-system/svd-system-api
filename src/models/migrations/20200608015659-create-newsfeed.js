@@ -2,7 +2,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('MURAL', {
       id: {
-        field: 'ID',
+        field: 'ID_POST',
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -15,20 +15,21 @@ module.exports = {
       },
       description: {
         field: 'DESCRICAO',
+        allowNull: false,
         type: Sequelize.STRING,
       },
       link: {
         field: 'LINK',
         type: Sequelize.STRING,
       },
-      date: {
-        fild: 'DATA',
+      expiresAt: {
+        fild: 'DT_EXPIRACAO',
         type: Sequelize.DATEONLY,
       },
-      icon: {
-        field: 'ICONE',
+      showIcon: {
+        field: 'EXIBIR_ICONE',
         type: Sequelize.BOOLEAN,
-        defaultValue: null,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
@@ -37,10 +38,10 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
-      }
+      },
     });
   },
   down: (queryInterface) => {
     return queryInterface.dropTable('MURAL');
-  }
+  },
 };
