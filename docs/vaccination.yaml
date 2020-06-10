@@ -36,10 +36,6 @@ paths:
                 comments:
                   type: string
                   description: Observação.
-                password:
-                  type: string
-                  required: true
-                  description: Senha do usuário colaborador.
         produces:
           - application/json
         responses:
