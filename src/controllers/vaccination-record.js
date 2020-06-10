@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const { Op, Sequelize } = require('sequelize');
 const { VaccinationRecord, Vaccine, User } = require('../models');
 const { HttpError } = require('../errors');
@@ -15,26 +14,15 @@ exports.create = (req, res) => {
         throw new HttpError('cpf', 'CPF não cadastrado');
       }
 
-      bcrypt.compare(vaccination.password, provider.password, (error, same) => {
-        if (same) {
-          delete vaccination.password;
-          VaccinationRecord.create(vaccination)
-            .then((record) => {
-              res.status(201).send(record);
-            })
-            .catch((err) => {
-              res.status(400).send({
-                message: err.message,
-              });
-            });
-        } else {
-          errors.push({
-            property: 'password',
-            message: 'Senha incorreta',
+      VaccinationRecord.create(vaccination)
+        .then((record) => {
+          res.status(201).send(record);
+        })
+        .catch((err) => {
+          res.status(400).send({
+            message: err.message,
           });
-          return res.status(409).send({ errors });
-        }
-      });
+        });
     })
     .catch((err) => {
       errors.push({
