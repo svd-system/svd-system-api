@@ -94,6 +94,34 @@ paths:
               count:
                 type: number
   /vaccines/{id}:
+    get:
+      tags:
+        - Vacinas
+      summary: Consultar vacina por ID.
+      parameters:
+        - name: id
+          in: path
+          type: number
+          description: ID da vacina.
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Vacina com ID informado.
+          schema:
+            type: object
+            $ref: '#/definitions/Vaccine'
+        '404':
+          description: Não há vacina com o ID informado.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
     put:
       tags:
         - Vacinas
