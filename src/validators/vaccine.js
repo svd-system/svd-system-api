@@ -3,6 +3,7 @@ const { Vaccine } = require('../models');
 
 const REQUIRED_FIELD_ERROR_MSG = 'Campo obrigatório';
 const CHECK_UNIQUE_ERROR_MSG = 'O {0} informado já está em uso';
+const NUMERIC_ONLY_ERROR_MSG = 'Apenas valores numéricos são permitidos';
 
 const checkUnique = (query, message) => {
   return Vaccine.findOne({
@@ -27,6 +28,11 @@ const create = () => {
         )
       ),
 
+    body('defaultQuantity')
+      .if((value) => value)
+      .isDecimal()
+      .withMessage(NUMERIC_ONLY_ERROR_MSG),
+
     body('label').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
   ];
 };
@@ -35,7 +41,10 @@ const update = () => {
   return [
     body('label').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
 
-    body('defaultQuantity').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+    body('defaultQuantity')
+      .if((value) => value)
+      .isDecimal()
+      .withMessage(NUMERIC_ONLY_ERROR_MSG),
 
     body('active').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
   ];
