@@ -11,6 +11,11 @@ exports.login = (req, res) => {
     .then((user) => {
       if (!user) {
         throw new HttpError('cpf', 'CPF não cadastrado');
+      } else if (!user.active) {
+        throw new HttpError(
+          'active',
+          'Usuário desativado. Entre em contato com o suporte técnico.'
+        );
       }
 
       bcrypt.compare(req.body.password, user.password, (error, same) => {
