@@ -20,6 +20,8 @@ const create = () => {
     body('serialNumber')
       .notEmpty()
       .withMessage(REQUIRED_FIELD_ERROR_MSG)
+      .isDecimal()
+      .withMessage(NUMERIC_ONLY_ERROR_MSG)
       .bail()
       .custom((value) =>
         checkUnique(

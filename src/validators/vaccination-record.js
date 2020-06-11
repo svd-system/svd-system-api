@@ -2,6 +2,7 @@ const { body } = require('express-validator');
 const { User, Vaccine } = require('../models');
 
 const REQUIRED_FIELD_ERROR_MSG = 'Campo obrigatório';
+const NUMERIC_ONLY_ERROR_MSG = 'Apenas valores numéricos são permitidos';
 
 const create = () => {
   return [
@@ -57,7 +58,11 @@ const create = () => {
         });
       }),
 
-    body('quantity').notEmpty().withMessage(REQUIRED_FIELD_ERROR_MSG),
+    body('quantity')
+      .notEmpty()
+      .withMessage(REQUIRED_FIELD_ERROR_MSG)
+      .isDecimal()
+      .withMessage(NUMERIC_ONLY_ERROR_MSG),
   ];
 };
 

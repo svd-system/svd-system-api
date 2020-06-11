@@ -99,7 +99,6 @@ exports.update = (req, res) => {
   const vaccine = req.body;
   return Vaccine.update(
     {
-      serialNumber: vaccine.serialNumber,
       label: vaccine.label,
       defaultQuantity: vaccine.defaultQuantity,
       active: vaccine.active,
