@@ -34,6 +34,7 @@ exports.list = (req, res) => {
         [Op.or]: [{ [Op.gte]: Sequelize.fn('NOW') }, { [Op.eq]: null }],
       },
     },
+    order: [['createdAt', 'DESC']],
   })
     .then((newsfeed) => {
       if (newsfeed) {
