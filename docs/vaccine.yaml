@@ -1,0 +1,184 @@
+paths:
+  /vaccines:
+    get:
+      tags:
+        - Vacinas
+      summary: Listar vacinas.
+      parameters:
+        - name: query
+          in: path
+          type: string
+          description: Texto usado para filtrar a lista pelo número de série e pela descrição.
+        - name: active
+          in: path
+          type: boolean
+          description: Lista somente vacinas ativas ou inativas.
+        - name: limit
+          in: path
+          type: number
+          description: Limite de registros por requisição. Usado para paginação.
+        - name: page
+          in: path
+          type: number
+          description: Número da página de registros. Usado para paginação.
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Lista de vacinas.
+          schema:
+            type: array
+            items:
+              title: Vaccine
+              $ref: '#/definitions/Vaccine'
+        '404':
+          description: Não há vacinas a serem listados.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+    post:
+      tags:
+        - Vacinas
+      summary: Criar uma nova vacina.
+      parameters:
+        - name: vaccine
+          in: body
+          description: Vacina a ser salva.
+          schema:
+            $ref: '#/definitions/Vaccine'
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '201':
+          description: Vacina criada com ID.
+          schema:
+            $ref: '#/definitions/Vaccine'
+        '422':
+          description: A vacina criada possui erros.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+  /vaccines/count:
+    get:
+      tags:
+        - Vacinas
+      summary: Contar vacinas.
+      description: >-
+        Contar número de vacinas de acordo com os parâmetros informados. Se não
+        for informado nenhum parâmetro, retorna o número total de vacinas.
+      parameters:
+        - name: serialNumber
+          in: query
+          description: Número de série
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Número total de vacinas encontradas.
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+  /vaccines/{id}:
+    get:
+      tags:
+        - Vacinas
+      summary: Consultar vacina por ID.
+      parameters:
+        - name: id
+          in: path
+          type: number
+          description: ID da vacina.
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Vacina com ID informado.
+          schema:
+            type: object
+            $ref: '#/definitions/Vaccine'
+        '404':
+          description: Não há vacina com o ID informado.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+    put:
+      tags:
+        - Vacinas
+      summary: Editar vacina.
+      description: >-
+        Edita a vacina com o ID indicado no path. O número de série do usuário não pode ser editado.
+      parameters:
+        - name: id
+          in: path
+          description: ID da vacina.
+        - name: vaccine
+          in: body
+          description: Vacina editada.
+          schema:
+            $ref: '#/definitions/Vaccine'
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Vacina editada com ID.
+          schema:
+            $ref: '#/definitions/Vaccine'
+        '404':
+          description: Vacina não encontrada com o ID informado.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+definitions:
+  Vaccine:
+    properties:
+      id:
+        type: number
+        uniqueItems: true
+        description: ID da vacina
+      serialNumber:
+        type: string
+        uniqueItems: true
+        required: true
+        description: Número de série
+      label:
+        type: string
+        required: true
+        description: Descrição da vacina
+      defaultQuantity:
+        type: number
+        description: Quantidade padrão em ml
+      active:
+        type: boolean
+        description: Indica se a vacine está ativa
+  Vaccines:
+    type: array
+    items:
+      title: Vaccine
+      $ref: '#/definitions/Vaccine'

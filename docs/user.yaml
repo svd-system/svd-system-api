@@ -1,0 +1,240 @@
+paths:
+  /users:
+    get:
+      tags:
+        - Usuários
+      summary: Listar usuários.
+      parameters:
+        - name: query
+          in: path
+          type: string
+          description: Texto usado para filtrar a lista pelo CPF, nome ou sobrenome.
+        - name: excludeId
+          in: path
+          type: number
+          description: ID do usuário que não deve vir na lista. Geralmente é o ID do usuário logado.
+        - name: activeOnly
+          in: path
+          type: boolean
+          description: Lista somente usuários ativos.
+        - name: limit
+          in: path
+          type: number
+          description: Limite de registros por requisição. Usado para paginação.
+        - name: page
+          in: path
+          type: number
+          description: Número da página de registros. Usado para paginação.
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Lista de usuários.
+          schema:
+            type: array
+            items:
+              title: User
+              $ref: '#/definitions/User'
+        '404':
+          description: Não há usuários a serem listados.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+    post:
+      tags:
+        - Usuários
+      summary: Criar um novo usuário.
+      parameters:
+        - name: user
+          in: body
+          description: Usuário para ser salvo.
+          schema:
+            $ref: '#/definitions/User'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Usuário criado com ID.
+          schema:
+            $ref: '#/definitions/User'
+  /users/{id}:
+    get:
+      tags:
+        - Usuários
+      summary: Consultar um usuário pelo ID.
+      parameters:
+        - name: id
+          in: path
+          description: ID do usuário.
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Usuário com o ID informado.
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: Usuário não encontrado com o ID informado.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+    put:
+      tags:
+        - Usuários
+      summary: Editar usuário.
+      description: >-
+        Edita o usuário com o ID indicado no path. O CPF do usuário não pode ser editado.
+      parameters:
+        - name: id
+          in: path
+          description: ID do usuário.
+        - name: user
+          in: body
+          description: Usuário editado.
+          schema:
+            $ref: '#/definitions/User'
+        - in: header
+          name: Authorization
+          description: 'Token no padrão: Bearer {token}.'
+          schema:
+            type: string
+          required: true
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Usuário criado com ID.
+          schema:
+            $ref: '#/definitions/User'
+        '404':
+          description: Usuário não encontrado com o ID informado.
+        '401':
+          description: >-
+            Autenticação falhou quando o token não foi encontrado ou é inválido
+  /users/count:
+    get:
+      tags:
+        - Usuários
+      summary: Contar usuários.
+      description: >-
+        Contar número de usuários de acordo com os parâmetros informados. Se não
+        for informado nenhum parâmetro, retorna o número total de usuários.
+      parameters:
+        - name: cpf
+          in: query
+          description: CPF do usuário
+          type: string
+        - name: email
+          in: query
+          description: Email do usuário
+          type: string
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Número total de usuários encontrados.
+          schema:
+            type: object
+            properties:
+              count:
+                type: number
+definitions:
+  User:
+    properties:
+      id:
+        type: number
+        uniqueItems: true
+        description: ID do usuário
+      firstName:
+        type: string
+        required: true
+        description: Nome
+      lastName:
+        type: string
+        required: true
+        description: Sobrenome
+      cpf:
+        type: string
+        uniqueItems: true
+        required: true
+        pattern: '12345678901'
+        description: CPF do usuário (somente dígitos)
+      birhtDate:
+        type: string
+        required: true
+        pattern: '1990-12-31'
+        description: Data de nascimento (YYYY-MM-DD)
+      genre:
+        type: string
+        required: true
+        description: Sexo do paciente
+        enum:
+          - FEMININO
+          - MASCULINO
+      phoneNumber:
+        type: string
+        required: true
+        pattern: '1199999999'
+        description: Nº de telefone (somente dígitos com DDD)
+      address:
+        type: string
+        required: false
+        description: Logradouro
+      houseNumber:
+        type: string
+        required: false
+        description: Nº da residência
+      cep:
+        type: string
+        required: false
+        pattern: '12345678'
+        description: CEP (somente dígitos)
+      email:
+        type: string
+        uniqueItems: true
+        required: true
+        pattern: usuario@email.com
+        description: Email
+      city:
+        type: string
+        required: true
+        description: Município
+      state:
+        type: string
+        required: true
+        pattern: UF
+        description: Estado (UF)
+      professionalOccupation:
+        type: string
+        required: false
+        description: Profissão
+      role:
+        type: string
+        required: true
+        description: Tipo de usuário
+        default: PACIENTE
+        enum:
+          - PACIENTE
+          - COLABORADOR
+          - ADMINISTRADOR
+      password:
+        type: string
+        required: true
+        description: Senha do usuário (informada somente ao criar o usuário)
+  Users:
+    type: array
+    items:
+      title: User
+      $ref: '#/definitions/User'
